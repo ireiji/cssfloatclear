@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn CSS Float and Clear</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .tutorial {
+            line-height: 1.6;
+        }
+
+        .example {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .example-box {
+            padding: 10px;
+            margin: 5px;
+            background-color: #e2e8f0;
+        }
+
+        .clear-demo {
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .clear-demo div {
+            padding: 10px;
+            margin: 5px;
+            color: white;
+        }
+
+        .interactive-clear-demo {
+            margin: 20px 0;
+        }
+
+        .interactive-clear-demo select {
+            margin: 10px 0;
+            padding: 5px;
+        }
+
+        .demo-container {
+        /* Add overflow: hidden */
+        overflow: hidden;
+        }
+
+        #demoFloatLeft {
+            float: left;
+            background-color: #93c5fd;
+        }
+
+        #demoFloatRight {
+            float: right;
+            background-color: #fca5a5;
+            height: 60px;
+        }
+
+        #clearBox {
+            background-color: #86efac;
+            width: 100%; /* Changed from 100% to fixed width */
+            clear: none;
+        }
+
+        .demo-box {
+            width: 100px;
+            height: 50px;
+            margin: 5px;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .editor-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .editor {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .code-editor {
+            width: 100%;
+            height: 200px;
+            font-family: monospace;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        .preview {
+            border: 1px solid #ddd;
+            padding: 15px;
+            background: white;
+            border-radius: 4px;
+            min-height: 200px;
+        }
+
+        .task-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        button:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            color: #059669;
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .task-description {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f8fafc;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .tab-buttons {
+            margin-bottom: 20px;
+        }
+
+        .tab-buttons button {
+            margin-right: 10px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .float-container-demo {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .broken-container {
+            border: 2px solid #ef4444;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .fixed-container {
+            border: 2px solid #22c55e;
+            padding: 10px;
+            margin-bottom: 20px;
+            overflow: auto;
+        }
+
+        .demo-image {
+            width: 150px;
+            height: 200px;
+            background-color: #93c5fd;
+            float: left;
+            margin-right: 15px;
+        }
+
+        .demo-text {
+            margin: 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section">
+            <div class="tab-buttons">
+                <button onclick="showTab('floatTutorial')">Float Tutorial</button>
+                <button onclick="showTab('clearTutorial')">Clear Tutorial</button>
+                <button onclick="showTab('containmentTutorial')">Float Containment</button>
+                <button onclick="showTab('practice')">Practice Tasks</button>
+            </div>
+
+            <div id="floatTutorial" class="tab-content">
+                <h1>Learning CSS Float Property</h1>
+                
+                <h2>What is Float?</h2>
+                <p>The CSS float property specifies whether an element should float to the left or right of its container. It's commonly used for layouts and wrapping text around images.</p>
+
+                <h2>Basic Float Values:</h2>
+                <ul>
+                    <li><strong>float: left</strong> - The element floats to the left of its container</li>
+                    <li><strong>float: right</strong> - The element floats to the right of its container</li>
+                    <li><strong>float: none</strong> - The element does not float (default)</li>
+                </ul>
+
+                <div class="example">
+                    <h3>Example:</h3>
+                    <div style="overflow: auto">
+                        <div class="example-box" style="float: left; background-color: #93c5fd;">Left Float</div>
+                        <div class="example-box" style="float: right; background-color: #fca5a5;">Right Float</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="clearTutorial" class="tab-content">
+                <h1>Understanding the Clear Property</h1>
+
+                <h2>What is Clear?</h2>
+                <p>The clear property specifies whether an element can be next to floating elements that precede it or must be moved down below them.</p>
+
+                <h2>Clear Property Values:</h2>
+                <ul>
+                    <li><strong>clear: none</strong> - Elements can float on both sides (default)</li>
+                    <li><strong>clear: left</strong> - No floating elements allowed on the left side</li>
+                    <li><strong>clear: right</strong> - No floating elements allowed on the right side</li>
+                    <li><strong>clear: both</strong> - No floating elements allowed on either side</li>
+                </ul>
+
+                <div class="clear-demo">
+                    <h3>Static Example:</h3>
+                    <div style="background-color: #93c5fd; float: left;">Float Left</div>
+                    <div style="background-color: #fca5a5; float: right;">Float Right</div>
+                    <div style="background-color: #86efac; clear: both;">Cleared Both</div>
+                </div>
+
+                <div class="interactive-clear-demo">
+                    <h3>Interactive Clear Demo:</h3>
+                    <p>Change the clear property to see how it affects the green box:</p>
+                    <select id="clearSelect" onchange="updateClearDemo()">
+                        <option value="none">clear: none</option>
+                        <option value="left">clear: left</option>
+                        <option value="right">clear: right</option>
+                        <option value="both">clear: both</option>
+                    </select>
+                    <div class="demo-container">
+                        <div id="demoFloatLeft" class="demo-box">Float Left</div>
+                        <div id="demoFloatRight" class="demo-box">Float Right</div>
+                        <div id="clearBox" class="demo-box">Cleared Box</div>
+                        <p style="margin-top: 10px; color: #666;">
+                            Current clear value: <span id="currentClearValue">none</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="containmentTutorial" class="tab-content">
+                <h1>Understanding Float Containment</h1>
+
+                <h2>The Float Containment Problem</h2>
+                <p>By default, floated elements can "escape" their container, causing layout issues. This happens when a floated element is taller than its container.</p>
+
+                <div class="float-container-demo">
+                    <h3>Problem Example:</h3>
+                    <div class="broken-container">
+                        <div class="demo-image">Tall Floated Element</div>
+                        <p class="demo-text">This is some text next to the floated element. Notice how the container's border doesn't extend around the floated element - it "breaks" out of its container.</p>
+                    </div>
+
+                    <h3>Solution with overflow: auto</h3>
+                    <div class="fixed-container">
+                        <div class="demo-image">Tall Floated Element</div>
+                        <p class="demo-text">This is the same layout, but with overflow: auto applied to the container. Notice how the border now properly contains all elements, including the floated one.</p>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <h3>How to Fix Float Containment:</h3>
+                        <p>Add <code>overflow: auto</code> to the container element:</p>
+                        <pre style="background: #f8fafc; padding: 15px; border-radius: 4px;">
+.container {
+    overflow: auto;  /* or overflow: hidden */
+    border: 2px solid #22c55e;
+    padding: 10px;
+}</pre>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <h3>Why This Works:</h3>
+                        <ul>
+                            <li>The <code>overflow: auto</code> property creates what's called a "block formatting context"</li>
+                            <li>This forces the container to expand and contain all floated elements</li>
+                            <li>You can also use <code>overflow: hidden</code> for the same effect</li>
+                            <li>This technique is often called "clearing floats" or "clearing the container"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="practice" class="tab-content">
+                <h2>Practice Tasks</h2>
+                <p>Let's practice using float and clear properties together!</p>
+                <button onclick="startPractice()">Start Practice Tasks</button>
+            </div>
+        </div>
+
+        <div class="section editor-container" id="editorContainer">
+            <div class="task-description" id="taskDescription"></div>
+            
+            <div class="editor">
+                <div>
+                    <h3>CSS Editor</h3>
+                    <textarea class="code-editor" id="cssEditor"></textarea>
+                </div>
+                <div>
+                    <h3>Preview</h3>
+                    <div class="preview" id="preview"></div>
+                </div>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                Great job! You've completed this task correctly! 🎉
+            </div>
+
+            <div class="task-navigation">
+                <button onclick="previousTask()" id="prevButton" disabled>Previous Task</button>
+                <button onclick="checkTask()" id="checkButton">Check Solution</button>
+                <button onclick="nextTask()" id="nextButton">Next Task</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tasks = [
+            {
+                description: "Task 1: Make the blue box float to the left of the container.",
+                initialHTML: `
+                    <div style="overflow: auto;">
+                        <div class="box" style="background-color: #93c5fd; width: 100px; height: 100px;"></div>
+                        <p>This is some text that should wrap around the blue box.</p>
+                    </div>
+                `,
+                initialCSS: `.box {
+    /* Add your CSS here */
+}`,
+                solution: /float:\s*left/i,
+            },
+            {
+                description: "Task 2: Create a two-column layout by making both boxes float left with some margin between them.",
+                initialHTML: `
+                    <div style="overflow: auto;">
+                        <div class="box1" style="background-color: #93c5fd; width: 45%; height: 100px;"></div>
+                        <div class="box2" style="background-color: #fca5a5; width: 45%; height: 100px;"></div>
+                    </div>
+                `,
+                initialCSS: `.box1 {
+    /* Add your CSS here */
+}
+.box2 {
+    /* Add your CSS here */
+    margin-left: 10%;
+}`,
+                solution: /float:\s*left.*float:\s*left/is,
+            },
+            {
+                description: "Task 3: Use clear: both to place the green box below both floating boxes.",
+                initialHTML: `
+                    <div style="overflow: auto;">
+                        <div class="float-left" style="background-color: #93c5fd; width: 45%; height: 50px; float: left;"></div>
+                        <div class="float-right" style="background-color: #fca5a5; width: 45%; height: 50px; float: right;"></div>
+                        <div class="clear-box" style="background-color: #86efac; height: 50px;"></div>
+                    </div>
+                `,
+                initialCSS: `.clear-box {
+    /* Add your CSS here */
+}`,
+                solution: /clear:\s*both/i,
+            },
+            {
+                description: "Task 4: Create a three-column layout and use clear to place a footer below all columns.",
+                initialHTML: `
+                    <div style="overflow: auto;">
+                        <div class="col" style="background-color: #93c5fd; height: 100px; width: 30%;"></div>
+                        <div class="col" style="background-color: #fca5a5; height: 100px; width: 30%;"></div>
+                        <div class="col" style="background-color: #86efac; height: 100px; width: 30%;"></div>
+                        <div class="footer" style="background-color: #f1f5f9; padding: 20px;">Footer</div>
+                    </div>
+                `,
+                initialCSS: `.col {
+    float: left;
+    margin-right: 5%;
+}
+.col:last-child {
+    margin-right: 0;
+}
+.footer {
+    /* Add your CSS here */
+}`,
+                solution: /clear:\s*both/i,
+            }
+        ];
+
+        let currentTask = 0;
+
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Hide editor container if showing tutorials
+            document.getElementById('editorContainer').style.display = 
+                (tabId === 'practice' && document.getElementById('editorContainer').style.display === 'block') 
+                ? 'block' 
+                : 'none';
+        }
+
+        function updateClearDemo() {
+            const clearValue = document.getElementById('clearSelect').value;
+            const clearBox = document.getElementById('clearBox');
+            const currentValueDisplay = document.getElementById('currentClearValue');
+            
+            clearBox.style.clear = clearValue;
+            currentValueDisplay.textContent = clearValue;
+        }
+
+        function startPractice() {
+            document.querySelector('.editor-container').style.display = 'block';
+            loadTask(0);
+        }
+
+        function loadTask(index) {
+            const task = tasks[index];
+            document.getElementById('taskDescription').textContent = task.description;
+            document.getElementById('cssEditor').value = task.initialCSS;
+            document.getElementById('preview').innerHTML = task.initialHTML;
+            document.getElementById('successMessage').style.display = 'none';
+            
+            updatePreview();
+            updateNavigationButtons();
+        }
+
+        function updatePreview() {
+            const preview = document.getElementById('preview');
+            const style = document.createElement('style');
+            style.textContent = document.getElementById('cssEditor').value;
+            
+            // Remove any previous style elements
+            const oldStyle = preview.querySelector('style');
+            if (oldStyle) oldStyle.remove();
+            
+            preview.insertBefore(style, preview.firstChild);
+        }
+
+        function checkTask() {
+            const css = document.getElementById('cssEditor').value;
+            const solution = tasks[currentTask].solution;
+            
+            if (solution.test(css)) {
+                document.getElementById('successMessage').style.display = 'block';
+            } else {
+                alert('Not quite right. Try again!');
+            }
+        }
+
+        function previousTask() {
+            if (currentTask > 0) {
+                currentTask--;
+                loadTask(currentTask);
+            }
+        }
+
+        function nextTask() {
+            if (currentTask < tasks.length - 1) {
+                currentTask++;
+                loadTask(currentTask);
+            }
+        }
+
+        function updateNavigationButtons() {
+            document.getElementById('prevButton').disabled = currentTask === 0;
+            document.getElementById('nextButton').disabled = currentTask === tasks.length - 1;
+        }
+
+        // Add live preview update
+        document.getElementById('cssEditor').addEventListener('input', updatePreview);
+
+        // Show float tutorial by default
+        showTab('floatTutorial');
+    </script>
+</body>
+</html>
